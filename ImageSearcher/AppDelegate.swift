@@ -15,7 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+//        RequestManager.sharedInstance.getEditorChoiceImages { (photos, error) in
+//
+//            if let photoArray = photos {
+//            print("The size of the photoArray is \(photoArray.count)")
+//            }
+//        }
         return true
     }
 

@@ -10,16 +10,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Search Bar Table View Controller-->
         <scene sceneID="PgW-us-xJQ">
             <objects>
-                <tableViewController id="91K-Ws-G43" sceneMemberID="viewController">
+                <tableViewController id="91K-Ws-G43" customClass="SearchBarTableViewController" customModule="ImageSearcher" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="aMz-9r-Jq4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="135" id="PMr-fh-ApV">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell" rowHeight="135" id="PMr-fh-ApV" customClass="PhotoTableViewCell" customModule="ImageSearcher" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="135"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PMr-fh-ApV" id="CdJ-1n-I3e">
@@ -27,16 +27,25 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1dK-3C-Zd4">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="134.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="135"/>
                                         </imageView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="59a-yx-Ql1">
+                                            <rect key="frame" x="177" y="57" width="20" height="20"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="1dK-3C-Zd4" firstAttribute="top" secondItem="CdJ-1n-I3e" secondAttribute="top" id="8AO-py-tNZ"/>
+                                        <constraint firstItem="59a-yx-Ql1" firstAttribute="centerX" secondItem="1dK-3C-Zd4" secondAttribute="centerX" id="O74-A1-suX"/>
                                         <constraint firstItem="1dK-3C-Zd4" firstAttribute="leading" secondItem="CdJ-1n-I3e" secondAttribute="leading" id="SVe-DC-Yqs"/>
                                         <constraint firstAttribute="bottom" secondItem="1dK-3C-Zd4" secondAttribute="bottom" id="YDj-Gf-fcZ"/>
+                                        <constraint firstItem="59a-yx-Ql1" firstAttribute="centerY" secondItem="CdJ-1n-I3e" secondAttribute="centerY" id="f8Q-CM-Dv7"/>
                                         <constraint firstAttribute="trailing" secondItem="1dK-3C-Zd4" secondAttribute="trailing" id="zPR-ZV-Jsf"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="activityIndicator" destination="59a-yx-Ql1" id="spa-ql-Itr"/>
+                                    <outlet property="mainImage" destination="1dK-3C-Zd4" id="w71-gf-e5t"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
