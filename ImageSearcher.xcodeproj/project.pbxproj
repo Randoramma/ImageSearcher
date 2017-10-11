@@ -14,6 +14,7 @@
 		D0307F5E1F893A3100F4E5F0 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0307F5D1F893A3100F4E5F0 /* RequestManager.swift */; };
 		D0307F601F893FC500F4E5F0 /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0307F5F1F893FC500F4E5F0 /* PrivateConstants.swift */; };
 		D03361CD1F8D670300D2935D /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03361CC1F8D670300D2935D /* PhotoTableViewCell.swift */; };
+		D03361CF1F8DB6DE00D2935D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03361CE1F8DB6DE00D2935D /* DetailViewController.swift */; };
 		D05473891F8937E70070FA4D /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05473861F8937E70070FA4D /* SwiftyJSON.framework */; };
 		D054738A1F8937E70070FA4D /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D05473861F8937E70070FA4D /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D060F5861F89166C00E9C3BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D060F5851F89166C00E9C3BF /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		D0307F5D1F893A3100F4E5F0 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		D0307F5F1F893FC500F4E5F0 /* PrivateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
 		D03361CC1F8D670300D2935D /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
+		D03361CE1F8DB6DE00D2935D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D05473861F8937E70070FA4D /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		D060F5821F89166C00E9C3BF /* ImageSearcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageSearcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D060F5851F89166C00E9C3BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				D0D19FBD1F8D5B3400CC1F99 /* SearchBarTableViewController.swift */,
+				D03361CE1F8DB6DE00D2935D /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				D0D19FBE1F8D5B3400CC1F99 /* SearchBarTableViewController.swift in Sources */,
 				D0307F601F893FC500F4E5F0 /* PrivateConstants.swift in Sources */,
 				D0307F5E1F893A3100F4E5F0 /* RequestManager.swift in Sources */,
+				D03361CF1F8DB6DE00D2935D /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

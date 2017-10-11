@@ -17,6 +17,13 @@ class SearchBarTableViewController: UITableViewController, UISearchBarDelegate {
             self.tableView.reloadData()
         }
     }
+    
+    var dataSourceOfSearch = [Photo]() {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBarControllerSetup()
@@ -42,14 +49,17 @@ class SearchBarTableViewController: UITableViewController, UISearchBarDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.dataSourceOfPhotos.count
+        return self.searchBarController.isActive ? self.dataSourceOfSearch.count : self.dataSourceOfPhotos.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! PhotoTableViewCell
-
-        cell.photoData = self.dataSourceOfPhotos[indexPath.row]
+        
+        if self.searchBarController.isActive {
+            cell.photoData = self.dataSourceOfSearch[indexPath.row]
+        } else {
+            cell.photoData = self.dataSourceOfPhotos[indexPath.row]
+        }
         return cell
     }
  
@@ -92,22 +102,37 @@ class SearchBarTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: SearchBar Delegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let textToFind = searchBar.text!
         
+        RequestManager.sharedInstance.getImagesByName(nameToSearch: textToFind) { (photos, error) in
+            if error == nil {
+                self.dataSourceOfSearch = photos!
+            }
+        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.dataSourceOfSearch = self.dataSourceOfPhotos
+    }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
         
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let destinationVC = segue.destination as! DetailViewController
+        let _ = destinationVC.view // call to initialize view related properties of the destinationVC
+        guard let indexPath = self.tableView.indexPathForSelectedRow else {return}
+        
+        let indexOfCellSelected = indexPath.row
+        let cell = self.tableView.cellForRow(at: indexPath) as! PhotoTableViewCell
+        
+        /* Setup the detail view with DI */
+        destinationVC.detailVCSetup(withImageView: cell.mainImage.image!, likesCount: self.dataSourceOfPhotos[indexOfCellSelected].likes!, andFavoritesCount: self.dataSourceOfPhotos[indexOfCellSelected].favorites!)
     }
-    */
 
     // MARK: - Helper
     

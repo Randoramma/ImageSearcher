@@ -26,10 +26,16 @@ class PhotoTableViewCell: UITableViewCell {
                 if let error = error {
                     print("the error at \(thisIndex) is \(error)")
                 } else if self?.indexOfCall == thisIndex {
-                    OperationQueue.main.addOperation({
+                    DispatchQueue.main.async(execute: {
                         self?.mainImage.image = image
                         self?.activityIndicator.stopAnimating()
                     })
+                    /* Use GCD over OperationQueue for more optimal performance
+                     https://stackoverflow.com/questions/40764140/operationqueue-main-vs-dispatchqueue-main
+                    OperationQueue.main.addOperation({
+
+                    })
+                     */
                 }
             } // closure
         }

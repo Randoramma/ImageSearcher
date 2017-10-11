@@ -36,20 +36,21 @@ class RequestManager {
     
     /// Alamofire Service Methods
     /// see https://github.com/Alamofire/Alamofire#parameter-encoding for options on request parameters.
-    func getImagesByName(nameToSearch name: String) {
+    func getImagesByName(nameToSearch name: String, completionHandler: @escaping (_ photos: [Photo]?, _ error: Error?) -> Void) {
         let parameters: [String: Any] = ["key": API.apiKey, "q": name]
-        
-        let _: HTTPHeaders = [
-            "key": API.apiKey,
-            "q": "application/json"
-        ]
         Alamofire.request(API.baseURL, parameters: parameters).responseJSON { (response) in
-            
             switch(response.result) {
             case .success(let value):
-                print(value)
+                let json = JSON(value)
+                let photos = self.parseJsonForPhoto(json) // parse for objects
+                DispatchQueue.main.async(execute: {
+                    completionHandler(photos, nil) // usually return objects on main queue.
+                })
             case .failure(let error):
-                print(error.localizedDescription)
+                DispatchQueue.main.async(execute: {
+                    completionHandler(nil, error)
+                    print(error.localizedDescription)
+                })
             }
         }
     }
@@ -87,11 +88,11 @@ class RequestManager {
             case .success(let value):
                 let json = JSON(value)
                 let photos = self.parseJsonForPhoto(json) // parse for objects
-                OperationQueue.main.addOperation({
+                DispatchQueue.main.async(execute: {
                     completionHandler(photos, nil) // usually return objects on main queue.
                 })
             case .failure(let error):
-                OperationQueue.main.addOperation({
+                DispatchQueue.main.async(execute: {
                     completionHandler(nil, error)
                     print(error.localizedDescription)
                 })
