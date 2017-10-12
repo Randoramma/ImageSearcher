@@ -26,25 +26,22 @@ class SearchBarTableViewController: UITableViewController, UISearchBarDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchBarControllerSetup()
         self.didMakeRequest = false
+        searchBarControllerSetup()
         requestDefaultPhotos()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return self.searchBarController.isActive ? self.dataSourceOfSearch.count : self.dataSourceOfPhotos.count
     }
     
@@ -93,6 +90,7 @@ class SearchBarTableViewController: UITableViewController, UISearchBarDelegate {
                 }
             } else {
                 requestDefaultPhotos()
+                self.didMakeRequest = false
             }
         }
     }
@@ -143,3 +141,8 @@ class SearchBarTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
 }
+
+/*
+ checkout https://developer.apple.com/library/ios/documentation/UIkit/Reference/UIScrollViewDelegate_Protocol/index.html
+ for will begin decelerating.
+ */

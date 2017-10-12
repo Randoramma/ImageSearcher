@@ -11,6 +11,12 @@ import Alamofire
 import AlamofireImage
 import SwiftyJSON
 
+enum RequestError {
+    case GeneralError
+    case NoInternetConnectionError
+}
+
+
 /*
  API Service class
  1. Create struct containing public members required to use API
@@ -43,11 +49,10 @@ class RequestManager {
         let queryString = name.URLEncodedValue
         let parameters: [String: Any] = ["key": API.apiKey,
                                          "q": queryString,
-                                         "page": pageForSearch,
-                                         "per_page": 10]
+                                         "safesearch": true,
+                                         "page": pageForSearch]
         // perform request and increment if request succeeds.
-
-        Alamofire.request(API.baseURL, parameters: parameters).responseJSON { (response) in
+        Alamofire.request(API.baseURL, parameters: parameters).validate().responseJSON { (response) in
             switch(response.result) {
             case .success(let value):
                 self.pageForSearch += 1
@@ -65,9 +70,32 @@ class RequestManager {
         }
     }
     
+    func getEditorChoiceImages(completionHandler: @escaping (_ photos: [Photo]?, _ error: Error?) -> Void) {
+        let parameters: [String: Any] = ["key": API.apiKey,
+                                         "editors_choice": true,
+                                         "safesearch": true,
+                                         "page": pageForEditorsChoice]
+        // the fetch request  and increment request variable if request succeeds.
+        Alamofire.request(API.baseURL, parameters: parameters).responseJSON { (response) in
+            switch(response.result) {
+            case .success(let value):
+                self.pageForEditorsChoice += 1
+                let json = JSON(value)
+                let photos = self.parseJsonForPhoto(json) // parse for objects
+                DispatchQueue.main.async(execute: {
+                    completionHandler(photos, nil) // usually return objects on main queue.
+                })
+            case .failure(let error):
+                DispatchQueue.main.async(execute: {
+                    completionHandler(nil, error)
+                    print(error.localizedDescription)
+                })
+            }
+        }
+    }
+    
     func getImagesByID(imageID id: String) {
-        let idQueryString = id.URLEncodedValue
-        let parameters: [String: Any] = ["key": API.apiKey, "id": idQueryString]
+        let parameters: [String: Any] = ["key": API.apiKey, "id": id]
         
         Alamofire.request(API.baseURL, parameters: parameters).responseJSON { (response) in
             switch(response.result) {
@@ -89,30 +117,6 @@ class RequestManager {
                 completionHandler(value, nil)
             case .failure(let error):
                 print("the error is \(error)")
-            }
-        }
-    }
-    
-    func getEditorChoiceImages(completionHandler: @escaping (_ photos: [Photo]?, _ error: Error?) -> Void) {
-        let parameters: [String: Any] = ["key": API.apiKey,
-                                         "editors_choice": true,
-                                         "page": pageForEditorsChoice,
-                                         "per_page": 10]
-        // the fetch request  and increment request variable if request succeeds.
-        Alamofire.request(API.baseURL, parameters: parameters).responseJSON { (response) in
-            switch(response.result) {
-            case .success(let value):
-                self.pageForEditorsChoice += 1
-                let json = JSON(value)
-                let photos = self.parseJsonForPhoto(json) // parse for objects
-                DispatchQueue.main.async(execute: {
-                    completionHandler(photos, nil) // usually return objects on main queue.
-                })
-            case .failure(let error):
-                DispatchQueue.main.async(execute: {
-                    completionHandler(nil, error)
-                    print(error.localizedDescription)
-                })
             }
         }
     }
@@ -160,14 +164,16 @@ public extension String {
             } else {
                 output.appendFormat("%%%02X", thisChar)
             }
-            
             i += 1
         }
-        
         return output as String
     }
 }
-
+/*
+ Error handling in Swift
+ https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/ErrorHandling.html
+ 
+ */
 
 /*
  hits =     (
