@@ -29,6 +29,7 @@ class PhotoTableViewCell: UITableViewCell {
                     DispatchQueue.main.async(execute: {
                         self?.mainImage.image = image
                         self?.activityIndicator.stopAnimating()
+                        self?.isUserInteractionEnabled = true
                     })
                     /* Use GCD over OperationQueue for more optimal performance
                      https://stackoverflow.com/questions/40764140/operationqueue-main-vs-dispatchqueue-main
@@ -45,6 +46,7 @@ class PhotoTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.activityIndicator.startAnimating()
+        self.isUserInteractionEnabled = false
         self.indexOfCall += 1 /* The Cell will retain the image until its discarded */
         self.photoData = nil /* If the cell is discarded, scrap its photoData so it can be reset */
     }

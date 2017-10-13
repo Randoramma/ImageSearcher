@@ -76,7 +76,7 @@ class RequestManager {
                                          "safesearch": true,
                                          "page": pageForEditorsChoice]
         // the fetch request  and increment request variable if request succeeds.
-        Alamofire.request(API.baseURL, parameters: parameters).responseJSON { (response) in
+        Alamofire.request(API.baseURL, parameters: parameters).validate().responseJSON { (response) in
             switch(response.result) {
             case .success(let value):
                 self.pageForEditorsChoice += 1
